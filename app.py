@@ -5,6 +5,9 @@ STUDENTS = {
     1001: {"name": "Ana", "grades": [4.5, 3.8, 4.2]},
     1002: {"name": "Luis", "grades": [2.8, 3.1, 2.9]},
     1003: {"name": "Marta", "grades": [5.0, 4.7, 4.9]},
+    1004: {"name": "Marta_1", "grades": [5.0, 4.7, 4.9]},
+    1005: {"name": "Marta_2", "grades": [5.0, 4.7, 4.9]},
+    1006: {"name": "Marta_3", "grades": [5.0, 4.7, 4.9]},
 }
 
 
