@@ -1,5 +1,5 @@
 import pytest
-
+from unittest.mock import patch
 from app import create_app, student_summary, validate_grades
 
 
@@ -69,3 +69,23 @@ def test_validate_grades_rejects_empty_list():
 def test_validate_grades_rejects_grade_out_of_range():
     with pytest.raises(ValueError, match="Cada nota debe estar entre 0 y 5"):
         validate_grades([4.0, 6.0])
+
+def test_students_summary_404_for_unknown_student(client):
+    response = client.get("/students/9999/summary")
+    assert response.status_code == 404
+    assert response.get_json() == {"error": "Estudiante no encontrado"}
+
+def test_calculate_average_raises_on_empty_list():
+    from app import calculate_average
+    with pytest.raises(ValueError, match="La lista de notas no puede estar vacia"):
+        calculate_average([])
+def test_evaluate_grades_not_numeric_grade(client):
+    response = client.post("/grades/evaluate", json={"grades": [3.0, "A", 5.0]})
+    assert response.status_code == 400
+    assert response.get_json() == {"error": "Todas las notas deben ser numericas"}
+def test_app_run():
+    with patch("app.app.run") as mock_run:
+        from app import create_app
+        app = create_app()
+        app.run()
+        mock_run.assert_called_once_with(host="0.0.0.0", port=5000)
